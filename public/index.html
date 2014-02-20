@@ -7,11 +7,59 @@
     <title>Canvas DataView upload demo</title>
 </head>
 <body onload="init();">
-    <canvas width="200" height="200"></canvas>
+    <canvas id="demo" width="200" height="200"></canvas>
+
+    <button id="upload">Upload</button>
 
     <script type="text/javascript">
     function init() {
-        console.log('init now');
+        var button = document.getElementById('upload');
+        var canvas = document.getElementById('demo');
+        var ctx = canvas.getContext('2d');
+
+        drawDemo(ctx);
+        initUpload(canvas, button);
+    }
+
+    function drawDemo(ctx) {
+        ctx.fillRect(25,25,100,100);
+        ctx.clearRect(45,45,60,60);
+        ctx.strokeRect(50,50,50,50);
+    }
+
+    function initUpload(canvas, button) {
+        button.onclick = function() {
+            var dataURI = canvas.toDataURL();
+            var blob = dataURItoBlob(dataURI);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/upload', true);
+            xhr.onload = function(e) {
+                console.log('success');
+            };
+
+            xhr.send(blob);
+        }
+    }
+
+    function dataURItoBlob(dataURI) {
+        // convert base64 to raw binary data held in a string
+        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+        var byteString = atob(dataURI.split(',')[1]);
+
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // write the bytes of the string to an ArrayBuffer
+        var ab = new ArrayBuffer(byteString.length);
+        var dw = new DataView(ab);
+
+        for(var i = 0; i < byteString.length; i++) {
+            dw.setUint8(i, byteString.charCodeAt(i));
+        }
+
+        // write the ArrayBuffer to a blob, and you're done
+        return new Blob([ab], {type: mimeString});
     }
     </script>
 </body>

@@ -33,8 +33,9 @@ function main() {
         app.use(express.errorHandler());
     });
 
+    // TODO: figure out how to make this part work
     app.post('/upload', function(req, res) {
-        // TODO: catch data now and save it
+        console.log(req.body, req.files);
 
         res.send(200);
     });

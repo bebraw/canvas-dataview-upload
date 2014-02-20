@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "name": "canvas-dataview-upload",
+  "version": "0.0.1",
+  "description": "Demo showing how to upload Canvas data to server",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.3.x"
+  },
+  "scripts": {
+    "run": "node ./serve.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bebraw/canvas-dataview-upload.git"
+  },
+  "keywords": [
+    "canvas"
+    "demo"
+  ],
+  "author": "Juho Vepsalainen <bebraw@gmail.com> (http://nixtu.info)",
+  "license": {
+    "type": "MIT",
+    "url": "https://raw.github.com/bebraw/canvas-dataview-upload/master/LICENSE"
+  },
+  "dependencies": {
+    "express": "3.4.8"
+  }
+}

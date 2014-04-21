@@ -33,6 +33,7 @@
             var blob = dataURItoBlob(dataURI);
             var xhr = new XMLHttpRequest();
 
+            // TODO: figure out what to change here!!!
             xhr.open('POST', '/upload', true);
             xhr.onload = function(e) {
                 console.log('success');

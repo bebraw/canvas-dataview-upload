@@ -15,7 +15,7 @@
     "url": "git://github.com/bebraw/canvas-dataview-upload.git"
   },
   "keywords": [
-    "canvas"
+    "canvas",
     "demo"
   ],
   "author": "Juho Vepsalainen <bebraw@gmail.com> (http://nixtu.info)",
@@ -24,6 +24,8 @@
     "url": "https://raw.github.com/bebraw/canvas-dataview-upload/master/LICENSE"
   },
   "dependencies": {
-    "express": "3.4.8"
+    "connect": "^2.14.4",
+    "connect-busboy": "0.0.1",
+    "express": "4.0.0"
   }
 }

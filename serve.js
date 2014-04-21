@@ -2,8 +2,8 @@
 
 'use strict';
 
-var path = require('path');
-
+var busboy = require('connect-busboy');
+var connect = require('connect');
 var express = require('express');
 
 
@@ -15,27 +15,24 @@ function main() {
     var port = process.env.PORT || 3000;
     var halfDay = 43200000;
 
-    app.configure(function() {
-        app.set('port', port);
-
-        app.use(express.logger('dev'));
-
-        app.use(express.urlencoded()); // needed for POST
-
-        app.use(express['static'](path.join(__dirname, 'public'), {
-            maxAge: halfDay
-        }));
-
-        app.use(app.router);
+    app.use(busboy({immediate: true}));
+    app.use(express['static'](__dirname + '/public'), {
+        maxAge: halfDay
     });
 
-    app.configure('development', function() {
-        app.use(express.errorHandler());
-    });
+    var env = process.env.NODE_ENV || 'development';
+    if(env === 'development') {
+        app.use(connect.errorHandler());
+    }
 
-    // TODO: figure out how to make this part work
     app.post('/upload', function(req, res) {
-        console.log(req.body, req.files);
+        if(!req.busboy) {
+            return res.send(500);
+        }
+
+        req.busboy.on('file', function(fieldname, file, filename) {
+            console.log(fieldname, file, filename);
+        });
 
         res.send(200);
     });

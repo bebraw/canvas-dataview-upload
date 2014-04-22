@@ -29,17 +29,19 @@
 
     function initUpload(canvas, button) {
         button.onclick = function() {
+            var xhr = new XMLHttpRequest();
+            var formData = new FormData();
             var dataURI = canvas.toDataURL();
             var blob = dataURItoBlob(dataURI);
-            var xhr = new XMLHttpRequest();
 
-            // TODO: figure out what to change here!!!
+            formData.append('upload.png', blob);
+
             xhr.open('POST', '/upload', true);
             xhr.onload = function(e) {
                 console.log('success');
             };
 
-            xhr.send(blob);
+            xhr.send(formData);
         }
     }
 

@@ -2,6 +2,9 @@
 
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
+
 var busboy = require('connect-busboy');
 var connect = require('connect');
 var express = require('express');
@@ -10,13 +13,14 @@ var express = require('express');
 main();
 
 function main() {
+    var uploadDir = path.join(__dirname, 'uploads');
     var app = express();
 
     var port = process.env.PORT || 3000;
     var halfDay = 43200000;
 
     app.use(busboy({immediate: true}));
-    app.use(express['static'](__dirname + '/public'), {
+    app.use(express['static'](path.join(__dirname, 'public')), {
         maxAge: halfDay
     });
 
@@ -30,11 +34,15 @@ function main() {
             return res.send(500);
         }
 
-        req.busboy.on('file', function(fieldname, file, filename) {
-            console.log(fieldname, file, filename);
-        });
+        req.busboy.on('file', function(fieldname, file) {
+            var p = path.join(uploadDir, fieldname);
 
-        res.send(200);
+            file.pipe(fs.createWriteStream(p));
+
+            console.log('saved file to', p);
+
+            res.send(200);
+        });
     });
 
     process.on('exit', terminator);

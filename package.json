@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "canvas-dataview-upload",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Demo showing how to upload Canvas data to server",
   "engines": {
     "node": "0.10.x",
